@@ -1,0 +1,410 @@
+
+  CREATE Table localDoctor
+ ( name VARCHAR(20),
+  clinicNumber INT,
+   address VarChar(50),
+   phoneNumber Char(12),
+   PRIMARY KEY (name ,clinicNumber));
+   
+   INSERT INTO localDoctor
+   VALUES ('Scott Aoryoo',300, '0939 Stonycreek', '939-939-9999');
+
+   
+   
+  CREATE Table doctor
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT);
+  
+  INSERT INTO doctor
+  VALUES (767,'Sami Yahya','888 Storin','788-838-8388','Doctor',35,'early',3);
+  
+ CREATE Table consultant
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT);
+  
+  INSERT INTO consultant
+  VALUES(888,'Sara Sam','8388 Stonycreek','877-888-8888','consultant',30,'ealy',5);
+  
+CREATE Table inPatient
+(patientNumber INT Primary Key,
+ lastName VARCHAR(20),
+ firstName VARCHAR(20),
+ address VarChar(50),
+ phoneNumber Char(12),
+ dateOfBirth date,
+maritalStatus Char(1),
+DatePlacedOnWaitingList date,
+ wardRequired Char(5),
+ durationStay int, 
+ datePlacedOnWard date,
+ DateLeftWard date,
+ bedNumber INT,
+ name VARCHAR(20),
+ clinicNumber INT,
+  staffNumber INT,
+  FOREIGN KEY (name,clinicNumber) REFERENCES localDoctor(name,clinicNumber),
+ Foreign key (staffNumber ) REFERENCES consultant(staffNumber ));
+INSERT INTO inPatient
+VALUES (333,'Alobaidi','Yasir','737 Sorin','737-838-9999','23-JUN-84','M','25-JUN-13','yes',5,'05-JUL-13','08-JUL-13', 80,'Scott Aoryoo',300,888);
+INSERT INTO inPatient
+VALUES (363,'Alobaidi','Fasil','737 Sorin','737-838-9999','23-JUN-84','M','27-JUN-13','yes',5,'','','', 'Scott Aoryoo',300,888);
+
+
+ CREATE Table outPatient
+(patientNumber INT Primary Key,
+ lastName VARCHAR(20),
+ firstName VARCHAR(20),
+ address VarChar(50),
+ phoneNumber Char(12),
+ dateOfBirth date,
+ maritalStatus Char(1),
+ datee date,
+   timee INT,
+ name VARCHAR(20),
+ clinicNumber INT,
+  staffNumber INT,
+  FOREIGN KEY (name,clinicNumber) REFERENCES localDoctor(name,clinicNumber),
+ Foreign key (staffNumber ) REFERENCES consultant(staffNumber ));
+
+INSERT INTO outPatient
+VALUES (393,'Alobaidi','Wasan','737 concord','737-800-9999','23-JUN-84','M','25-JUN-13',5, 'Scott Aoryoo',300,888);
+INSERT INTO outPatient
+VALUES (397,'Alobaidi','Reem','737 concord','737-800-9999','23-JUN-84','M','27-JUN-13',5, 'Scott Aoryoo',300,888);
+CREATE Table emergencyContact
+(patientNumber INT Primary Key,
+ name VARCHAR(20),
+ relationship VARCHAR(20),
+ address VarChar(50),
+ phoneNumber CHAR(12));
+
+  INSERT INTO emergencyContact
+  VALUES(333, 'SARAH SAHIB', 'wife','777 concord','646-884-9999' );
+ 
+ CREATE Table medicationList
+ (patientNumber INT,
+  staffNumber INT,
+  drugNumber INT,
+  drugName VARCHAR(20),
+  unitPerDay INT,
+  startDay date,
+  FinishDay date,
+ PRIMARY KEY ( patientNumber ,   drugNumber),
+  Foreign key (staffNumber ) REFERENCES doctor(staffNumber ));
+ 
+  
+INSERT INTO medicationList
+VALUES(333,767,9999,'drugName',3,'03-JUN-20','12-JUN-20');
+
+ 
+ CREATE Table appointment
+ (consltantName VARCHAR(20),
+  conslatantNumber INT,
+  date1 date,
+  appointmentNumber INT Primary Key,
+  time1 INT,
+  room INt,
+  patientNumber INT, 
+   Foreign key (patientNumber) REFERENCES inPatient(patientNumber));
+ INSERT INTO appointment
+  VALUES('sara sam',888,'05-JUL-20',9800,5,565,333);
+   INSERT INTO appointment
+  VALUES('sara sam',888,'05-JUN-20',9801,5,565,333);
+   INSERT INTO appointment
+  VALUES('sara sam',888,'06-JUN-20',9802,5,565,333);
+  
+  CREATE Table suppliers
+ (supplierName VARCHAR(20), 
+  supplierNumber INT PRIMARY KEY, 
+   address VarChar(50),
+   phoneNumber Char(12),
+   faxNumber CHAR(12));
+   INSERT INTO suppliers
+   VALUES('Brad Bandy',001,'884 TOYE','788-999-5555','747-848-9999');
+   INSERT INTO suppliers
+   VALUES('Chris Bandy',004,'884 TOYE','','');
+   
+  CREATE Table generalSupplies
+ (itemNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  description VARCHAR(50),
+  quantity INT,
+  reorderLevel INT,
+  costPerUnit INT, 
+  type VARCHAR(20),
+  supplierNumber INT,
+  orderedDate date,
+   Foreign key (supplierNumber) REFERENCES suppliers(supplierNumber));
+   INSERT INTO generalSupplies
+   VALUES(9998,'item-one','N',50,600,56,'S',001,'03-JUL-20');
+   INSERT INTO generalSupplies
+   VALUES(9997,'item-three','N',57,8,90,'S',001,'04-JUN-20');
+   
+   
+ CREATE Table pharmaceuticalSupplies
+ (itemNumber INT PRIMARY KEY,
+  name VARCHAR(20),
+  description VARCHAR(50),
+  quantity INT,
+  reorderLevel INT, 
+  costPerUnit INT,
+  dosage INT,
+  supplierNumber INT,
+  orderedDate date,
+ Foreign key (supplierNumber) REFERENCES suppliers(supplierNumber));
+ INSERT INTO pharmaceuticalSupplies
+   VALUES(9999,'item-two','N',56,700,58,35,001,'03-JUL-20');
+
+ CREATE Table chargeNurse
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT);
+
+INSERT INTO  chargeNurse
+VALUES(9090,'sara','767 fyi','676-899-9999','no',5,'early',8);
+INSERT INTO  chargeNurse
+VALUES(9091,'yara','767 fyi','676-899-9999','no',5,'early',9);
+
+CREATE TABLE specialties
+(chargeNurseStaffNumber INT primary key, 
+  staffNumber INT, 
+specialties Varchar(20));
+INSERT INTO specialties
+Values(9090, 8989,'Care1');
+
+CREATE Table obtain
+ (itemNumber INT,
+  staffNumber INt, 
+  requestionNumber INT,
+  wardNumber INT,
+  quantityrequird INT,
+  dateOrdered date,
+  dateReceived date,
+  PRIMARY KEY (itemNumber, staffNumber),
+   Foreign key (staffNumber) REFERENCES chargeNurse(staffNumber),
+  Foreign key (itemNumber) REFERENCES generalSupplies(itemNumber));
+ INSERT INTO obtain
+ VALUES(9998,9090,7007,8,60,'03-JUL-20','15-JUL-20');
+ 
+
+ CREATE Table ward
+ (wardNumber INT Primary key,
+  wardName VARCHAR(20),
+  phoneNumber CHAR(12),
+  location VARCHAR(50),
+  numberOFBeds INT,
+  nameofchargeNurse VARCHAR(20),
+  staffNumber INT,
+  shift VARCHAR(10),
+   Foreign key (staffNumber ) REFERENCES chargeNurse(staffNumber ));
+   INSERT INTO ward
+   VALUES(8,'WARD',939-838-9909,'No',5,'sara',9090,'early');
+      INSERT INTO ward
+   VALUES(9,'WARD2',939-808-9999,'No',6,'yara',9091,'early');
+ CREATE Table seniorNurse
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT,
+   Foreign key (wardNumber) REFERENCES ward(wardNumber));
+   INSERT INTO seniorNurse
+   VALUES(8989,'kim','887 smile','999-000-9999','no',5,'early',8);
+CREATE Table juniorNurse
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT,
+   Foreign key (wardNumber) REFERENCES ward(wardNumber));
+    INSERT INTO juniorNurse
+   VALUES(8008,'yara','887 smile','999-11-9999','no',7,'early',8);
+CREATE Table auxiliaries
+ (staffNumber INT PRIMARY KEY, 
+  name VARCHAR(20),
+  address VARCHAR(50),
+  phoneNumber CHAR(12),
+  position VARCHAR(20),
+  numberOfHour INT,
+  Shift VARCHAR(10),
+  wardNumber INT,
+   Foreign key (wardNumber) REFERENCES ward(wardNumber));
+  
+   INSERT INTO auxiliaries
+   VALUES(8011,'sam','887 smile','989-11-9999','no',9,'early',8);
+ CREATE Table createrelation
+ (staffNumber INT primary key, 
+  Date1 date,
+ shift Char(10),
+  staffONDUTY INT,
+ wardNumber INT,
+  Foreign key (wardNumber) REFERENCES ward(wardNumber),
+   Foreign key (staffNumber ) REFERENCES chargeNurse(staffNumber ));
+INSERT INTO createrelation
+VALUES(9090,'06-JUL-20','early',8008,8);
+INSERT INTO createrelation
+VALUES(9091,'06-JUL-20','early',8989,9)
+
+---------------------------------------------------------------------------
+Data Queries
+Medical Director View
+
+1.List the details of a specific ward.
+               Select * 
+               FROM  ward
+               where wardNumber =9
+
+2.List each ward number and a count of the number of beds for each ward.
+
+            Select wardNumber, numberOFBeds
+             FROM Ward
+3.List each surgical supply and the total quantity in stock, ordered by total quantity in stock descending.
+Select * 
+FROM generalSupplies
+Where type='S'
+ORDER BY quantity  DESC
+4.List each surgical supply and a sum of the quantity in stock for each item that has a re-order level greater than 10. 
+          Select itemNumber, sum(quantity )
+          FROM generalSupplies
+           Where type='S' AND   reorderLevel>10
+            Group by itemNumber
+5.List the details for each surgical supply item that has a cost per unit greater than $9.00.
+         Select *
+         FROM generalSupplies
+         Where type='S' AND    costPerUnit>9
+
+6.List all the suppliers that do not have a phone number on file.
+        SELECT * 
+       FROM suppliers
+       Where phoneNumber is Null
+7.List each supplier and a count of the different products that they currently supply.
+          SELECT suppliers.supplierName,count (DISTINCT generalSupplies.itemNumber)
+           FROM suppliers,  generalSupplies
+           where suppliers.supplierNumber = generalSupplies.supplierNumber
+           Group by suppliers.supplierName
+8.List the details for each local clinic and the number of patients that they have referred over the past year. 
+          SELECT localDoctor.clinicNumber,count(inPatient.patientNumber)
+          FROM localDoctor,inPatient
+          where inPatient.name=localDoctor.name
+         GROUP BY localDoctor.clinicNumber
+
+9.List the number of patients treated at the outpatient clinic each day ordered by date.
+              SELECT datee, Count(patientNumber)
+               FROM  outPatient
+               Group by datee
+                Order by datee
+
+10.List all of the patients currently on the waiting list for In Patient services
+SELECT * 
+FROM inPatient
+where DatePlacedOnWaitingList Is Not NULL
+AND datePlacedOnWard is NULL
+
+Charge Nurse View>>>>>>>>>>>>
+1.List the staff number and name of staff in a given ward, ordered by staff name.
+  SELECT staffNumber,nameofchargeNurse as name 
+  FROM ward
+  WHERE wardNumber=8
+  Union 
+  select staffNumber, name
+  From juniorNurse
+  where wardNumber=8
+    Union 
+  select staffNumber, name
+  From seniorNurse
+  where wardNumber=8
+      Union 
+  select staffNumber, name
+  From auxiliaries
+  where wardNumber=8
+
+2.List the name of each Charge Nurse on each ward, ordered by ward number.
+          SELECT nameofchargeNurse,wardNumber,wardName
+           FROM ward
+           order by wardNumber
+
+3.List the name of each patient that has stayed in a specific bed.
+SELECT patientNumber,lastName, firstName
+FROM inPatient
+WHERE  datePlacedOnWard IS Not NULL AND  bedNumber=80
+
+4.List all of the supplies ordered on a specific day.
+ SELECT itemNumber
+FROM generalSupplies
+WHERE orderedDate ='03-JUL-20'
+UNION 
+SELECT itemNumber
+FROM pharmaceuticalSupplies
+WHERE orderedDate ='03-JUL-20'
+5.List each ward and shift (early, late, etc.) and a count of staff on duty.
+ SELECT ward.wardNumber,ward.shift,count(seniorNurse.staffNumber) AS   numberOfSeniorNurse,count(juniorNurse.staffNumber)AS numberOfjuniorNurse
+ FROM ward,seniorNurse,juniorNurse
+group by ward.wardNumber,ward.shift
+OR>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SELECT staffNumber, Date1 as workdate, shift,staffONDUTY,wardNumber 
+FROM createrelation
+
+
+6.List the immediate family contact details for all patients.
+SELECT * 
+FROM emergencyContact
+
+7.List every staff person who provides specialist care on each ward.
+SELECT ward.wardNumber,  specialties.staffNumber
+FROM ward, specialties
+where specialties.chargeNurseStaffNumber = ward.staffNumber
+
+8.List the patient ID and the maximum dosage of the patient taking he highest dosage of a
+Pharmaceutical supply.
+SELECT medicationList.patientNumber, pharmaceuticalSupplies. dosage
+FROM medicationList, pharmaceuticalSupplies
+where medicationList.drugNumber=pharmaceuticalSupplies.itemNumber
+
+
+9.List the details for the pharmaceutical supply that is most frequently ordered.
+select itemNumber, count(itemNumber) AS value_occurrence
+from pharmaceuticalSupplies
+group by itemNumber
+order by value_occurrence DESC
+
+10.List a count of patient appointments per week.
+SELECT to_char(to_date(date1,'DD-MM-YY'),'WW') as "Week",count(appointmentNumber)
+FROM appointment
+Group by  to_char(to_date(date1,'DD-MM-YY'),'WW')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
